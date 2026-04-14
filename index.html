@@ -3,63 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>投資模擬：誰是Elon Musk？！ (iPad 適配版)</title>
-    <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; margin: 0; padding: 5px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .header { text-align: center; padding: 5px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 5px; }
-        .header h1 { margin: 0; font-size: 1.5rem; }
-        .dashboard { flex: 1; display: grid; grid-template-columns: 1.8fr 1fr; gap: 8px; height: calc(100% - 50px); overflow: hidden; }
-        .main-panel { background: white; padding: 8px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 1.4rem; }
-        th, td { border-bottom: 1px solid #eee; padding: 8px 5px; text-align: center; transition: all 0.3s ease; }
-        th { background: #f8f9fa; padding: 10px 5px; }
-        
-        .winner-row { background-color: #fff9c4 !important; } 
-        .winner-row td { font-weight: bold; }
-        .winner-row td.balance { color: #f57f17; }
-        .trophy { margin-left: 5px; font-size: 1.2rem; }
+   <style>
+    /* Prevent the body from scrolling and use a full-height flex column */
+    body { 
+        font-family: "Microsoft JhengHei", sans-serif; 
+        background-color: #f0f2f5; 
+        margin: 0; 
+        padding: 5px; 
+        height: 100vh; 
+        overflow: hidden; 
+        display: flex; 
+        flex-direction: column; 
+        box-sizing: border-box;
+    }
+    
+    .header { text-align: center; padding: 5px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 5px; flex-shrink: 0; }
+    .header h1 { margin: 0; font-size: 1.3rem; }
 
-        .balance { font-family: 'Consolas', monospace; font-weight: bold; color: #2e7d32; }
-        .stats-box { background: #e7f3ff; padding: 10px; border-radius: 8px; font-size: 1.3rem; font-weight: bold; display: flex; justify-content: space-around; margin-top: 5px; }
-        .side-panel { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
-        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { margin: 0 0 8px 0; font-size: 1.2rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 5px; }
-        
-        .group-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            grid-template-rows: repeat(3, 1fr);
-            grid-auto-flow: column; 
-            gap: 10px; 
-        }
-        
-        .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1.2rem; font-weight: bold; }
-        select { padding: 5px; font-size: 1.1rem; border-radius: 5px; width: 85px; }
-        
-        #dividend-card { display: none; background: #fff4e5; border: 2px solid #f7b928; }
-        .div-btn { background: #f7b928; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; transition: 0.3s; }
-        .div-btn:active { transform: scale(0.9); }
-        
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.4rem; transition: 0.2s; }
-        .btn-next { background: #1877f2; color: white; }
+    /* Dashboard now takes up exactly the remaining height */
+    .dashboard { 
+        flex: 1; 
+        display: grid; 
+        grid-template-columns: 1.8fr 1fr; 
+        gap: 8px; 
+        min-height: 0; /* Critical for flex children to shrink */
+        overflow: hidden; 
+    }
 
-        .admin-trigger {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            width: 35px;
-            height: 35px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 999;
-            color: #ccc;
-            font-size: 1rem;
-        }
-    </style>
+    /* Main Panel: The table area */
+    .main-panel { 
+        background: white; 
+        padding: 8px; 
+        border-radius: 12px; 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 0; 
+    }
+
+    /* Table Container: Make the table scroll internally if needed, but try to fit it */
+    .table-container { flex: 1; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 1.2rem; }
+    th, td { border-bottom: 1px solid #eee; padding: 6px 4px; text-align: center; }
+    th { background: #f8f9fa; position: sticky; top: 0; }
+    
+    .winner-row { background-color: #fff9c4 !important; } 
+    .balance { font-family: 'Consolas', monospace; font-weight: bold; color: #2e7d32; }
+
+    .stats-box { 
+        background: #e7f3ff; 
+        padding: 8px; 
+        border-radius: 8px; 
+        font-size: 1.1rem; 
+        font-weight: bold; 
+        display: flex; 
+        justify-content: space-around; 
+        margin-top: 5px; 
+        flex-shrink: 0;
+    }
+
+    /* Side Panel: Inputs and Buttons */
+    .side-panel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+    .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    h2 { margin: 0 0 5px 0; font-size: 1.1rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 3px; }
+    
+    /* Tighten the group grid to save vertical space */
+    .group-grid { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        grid-template-rows: repeat(3, 1fr);
+        gap: 5px; 
+    }
+    .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1rem; font-weight: bold; }
+    select { padding: 3px; font-size: 1rem; width: 75px; }
+    
+    #dividend-card { display: none; background: #fff4e5; border: 2px solid #f7b928; }
+    .div-btn { background: #f7b928; color: #000; border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; }
+    
+    /* Buttons area */
+    .action-area { margin-top: auto; padding-bottom: 5px; flex-shrink: 0; }
+    .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
+    .btn-next { background: #1877f2; color: white; }
+
+    .admin-trigger {
+        position: fixed; bottom: 5px; right: 5px; width: 30px; height: 30px;
+        background: rgba(0,0,0,0.05); border-radius: 50%; display: flex;
+        align-items: center; justify-content: center; cursor: pointer; z-index: 999;
+    }
+</style>
 </head>
 <body>
 
