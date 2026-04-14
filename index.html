@@ -2,42 +2,42 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>投資模擬：誰是Elon Musk？！ (iPad 適配版)</title>
+    <title>投資模擬：誰是Elon Musk？！ (iPad 極簡版)</title>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; margin: 0; padding: 5px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
-        .header { text-align: center; padding: 4px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 5px; flex-shrink: 0; }
-        .header h1 { margin: 0; font-size: 1.4rem; }
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; margin: 0; padding: 2px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
+        .header { text-align: center; padding: 3px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 3px; flex-shrink: 0; }
+        .header h1 { margin: 0; font-size: 1.3rem; }
         
-        .dashboard { flex: 1; display: grid; grid-template-columns: 1.8fr 1fr; gap: 8px; min-height: 0; }
+        .dashboard { flex: 1; display: grid; grid-template-columns: 1.8fr 1fr; gap: 5px; min-height: 0; padding-bottom: 2px; }
         
-        .main-panel { background: white; padding: 5px; border-radius: 12px; display: flex; flex-direction: column; min-height: 0; }
-        table { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
-        th, td { border-bottom: 1px solid #eee; padding: 6px 4px; text-align: center; }
-        th { background: #f8f9fa; padding: 8px 4px; }
+        .main-panel { background: white; padding: 4px; border-radius: 10px; display: flex; flex-direction: column; min-height: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; font-size: 1.2rem; }
+        th, td { border-bottom: 1px solid #eee; padding: 4px 2px; text-align: center; line-height: 1.2; }
+        th { background: #f8f9fa; padding: 6px 2px; }
         
         .winner-row { background-color: #fff9c4 !important; } 
         .winner-row td { font-weight: bold; }
         .winner-row td.balance { color: #f57f17; }
         .balance { font-family: 'Consolas', monospace; font-weight: bold; color: #2e7d32; }
         
-        .stats-box { background: #e7f3ff; padding: 8px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; display: flex; justify-content: space-around; margin-top: auto; }
+        .stats-box { background: #e7f3ff; padding: 5px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; display: flex; justify-content: space-around; margin-top: 2px; }
         
-        .side-panel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
-        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0; }
-        h2 { margin: 0 0 8px 0; font-size: 1.1rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 3px; }
+        .side-panel { display: flex; flex-direction: column; gap: 5px; min-height: 0; }
+        .card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h2 { margin: 0 0 5px 0; font-size: 1rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 2px; }
         
-        .group-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); grid-auto-flow: column; gap: 8px; }
-        .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1.1rem; font-weight: bold; }
-        select { padding: 4px; font-size: 1.1rem; border-radius: 5px; width: 80px; }
+        .group-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); grid-auto-flow: column; gap: 5px; }
+        .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1rem; font-weight: bold; }
+        select { padding: 2px; font-size: 1rem; border-radius: 4px; width: 75px; }
         
         #dividend-card { display: none; background: #fff4e5; border: 2px solid #f7b928; }
-        .div-btn { background: #f7b928; color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; }
+        .div-btn { background: #f7b928; color: #000; border: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; }
         
-        .action-area { margin-top: auto; padding-bottom: 10px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.3rem; }
+        .action-area { margin-top: auto; display: flex; flex-direction: column; gap: 4px; padding-bottom: 5px; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
         .btn-next { background: #1877f2; color: white; }
 
-        .admin-trigger { position: fixed; bottom: 5px; right: 5px; width: 30px; height: 30px; background: rgba(0,0,0,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: #ddd; font-size: 0.9rem; }
+        .admin-trigger { position: fixed; bottom: 3px; right: 3px; width: 25px; height: 25px; background: rgba(0,0,0,0.02); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: #ddd; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -48,39 +48,39 @@
 
 <div class="dashboard">
     <div class="main-panel">
-        <div style="overflow-y: auto;">
+        <div style="flex: 1; overflow: hidden;">
             <table>
                 <thead>
                     <tr>
                         <th>組別</th>
-                        <th>目前資產 (HKD)</th>
+                        <th>資產 (HKD)</th>
                         <th>選擇</th>
-                        <th>本日總回報率</th>
+                        <th>回報</th>
                     </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
             </table>
         </div>
         <div class="stats-box">
-            <span>債券平均: <span id="avg-bond" style="color:#1877f2">0.00%</span></span>
-            <span>股票平均: <span id="avg-share" style="color:#d32f2f">0.00%</span></span>
+            <span>債券: <span id="avg-bond" style="color:#1877f2">0%</span></span>
+            <span>股票: <span id="avg-share" style="color:#d32f2f">0%</span></span>
         </div>
     </div>
 
     <div class="side-panel">
         <div class="card">
-            <h2>各組選擇 (1-6)</h2>
+            <h2>各組選擇</h2>
             <div class="group-grid" id="input-container"></div>
         </div>
 
         <div id="dividend-card" class="card">
-            <h2 style="color: #e67e22; border-color: #e67e22;">公司即時決策</h2>
-            <button class="div-btn" onclick="applyInstantDividend()">💰 追加額外股息 (+2%)</button>
+            <h2>即時決策</h2>
+            <button class="div-btn" onclick="applyInstantDividend()">💰 加派股息 (+2%)</button>
         </div>
 
         <div class="action-area">
-            <button id="main-action-btn" class="btn btn-next" onclick="nextDay()">確認選擇並結算</button>
-            <button id="reset-btn" class="btn" style="background:#ccc; display:none; margin-top:5px;" onclick="location.reload()">重新開始</button>
+            <button id="main-action-btn" class="btn btn-next" onclick="nextDay()">結算本日 →</button>
+            <button id="reset-btn" class="btn" style="background:#ccc; display:none;" onclick="location.reload()">重新開始</button>
         </div>
     </div>
 </div>
@@ -117,10 +117,10 @@
             let returnDisplay = '-';
             const isLeading = g.balance === maxBalance && g.balance > 1000;
             if (isSettled) {
-                returnDisplay = (g.lastReturn * 100).toFixed(2) + '%';
-                if (g.currentBonus > 0) returnDisplay += ` <small>(+${g.currentBonus}%)</small>`;
+                returnDisplay = (g.lastReturn * 100).toFixed(1) + '%';
+                if (g.currentBonus > 0) returnDisplay += `(+${g.currentBonus}%)`;
             }
-            tbody.innerHTML += `<tr class="${isLeading ? 'winner-row' : ''}"><td><strong>第${g.id}組</strong></td><td class="balance">$${g.balance.toFixed(2)}</td><td>${isSettled ? (g.choice === 'B' ? '債券' : '股票') : '-'}</td><td style="color:${g.lastReturn >= 0 ? '#d32f2f' : '#2e7d32'}">${returnDisplay}</td></tr>`;
+            tbody.innerHTML += `<tr class="${isLeading ? 'winner-row' : ''}"><td><strong>${g.id}</strong></td><td class="balance">$${g.balance.toFixed(0)}</td><td>${isSettled ? (g.choice === 'B' ? '債' : '股') : '-'}</td><td style="color:${g.lastReturn >= 0 ? '#d32f2f' : '#2e7d32'}">${returnDisplay}</td></tr>`;
         });
     }
 
@@ -134,7 +134,7 @@
             }
         });
         totalShareReturn += 0.02;
-        document.getElementById('avg-share').innerText = (totalShareReturn / day * 100).toFixed(2) + "%";
+        document.getElementById('avg-share').innerText = (totalShareReturn / day * 100).toFixed(1) + "%";
         renderTable();
     }
 
@@ -150,8 +150,8 @@
                 g.balance *= (1 + g.lastReturn);
             });
             totalBondReturn += bondBase; totalShareReturn += shareBase;
-            document.getElementById('avg-bond').innerText = (totalBondReturn / day * 100).toFixed(2) + "%";
-            document.getElementById('avg-share').innerText = (totalShareReturn / day * 100).toFixed(2) + "%";
+            document.getElementById('avg-bond').innerText = (totalBondReturn / day * 100).toFixed(1) + "%";
+            document.getElementById('avg-share').innerText = (totalShareReturn / day * 100).toFixed(1) + "%";
             renderTable();
             document.getElementById('main-action-btn').innerText = "下一天 →";
             document.getElementById('main-action-btn').style.background = "#28a745";
@@ -164,7 +164,7 @@
                 day++; isSettled = false;
                 document.getElementById('day-num').innerText = day;
                 document.getElementById('dividend-card').style.display = 'none';
-                document.getElementById('main-action-btn').innerText = "確認選擇並結算";
+                document.getElementById('main-action-btn').innerText = "結算本日 →";
                 document.getElementById('main-action-btn').style.background = "#1877f2";
                 renderTable();
             }
