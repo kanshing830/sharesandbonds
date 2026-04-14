@@ -2,94 +2,47 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>投資模擬：誰是Elon Musk？！ (iPad 適配版)</title>
-   <style>
-    /* Prevent the body from scrolling and use a full-height flex column */
-    body { 
-        font-family: "Microsoft JhengHei", sans-serif; 
-        background-color: #f0f2f5; 
-        margin: 0; 
-        padding: 5px; 
-        height: 100vh; 
-        overflow: hidden; 
-        display: flex; 
-        flex-direction: column; 
-        box-sizing: border-box;
-    }
-    
-    .header { text-align: center; padding: 5px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 5px; flex-shrink: 0; }
-    .header h1 { margin: 0; font-size: 1.3rem; }
+    <title>投資模擬：誰是Elon Musk？！ (iPad 優化版)</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; margin: 0; padding: 5px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
+        .header { text-align: center; padding: 5px 0; background: #1877f2; color: white; border-radius: 8px; margin-bottom: 5px; flex-shrink: 0; }
+        .header h1 { margin: 0; font-size: 1.4rem; }
+        
+        .dashboard { flex: 1; display: grid; grid-template-columns: 1.8fr 1fr; gap: 8px; min-height: 0; }
+        
+        /* 左側面板：統計移到最上方 */
+        .main-panel { background: white; padding: 8px; border-radius: 12px; display: flex; flex-direction: column; min-height: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .stats-box { background: #e7f3ff; padding: 10px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; display: flex; justify-content: space-around; margin-bottom: 8px; flex-shrink: 0; }
+        .table-container { flex: 1; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 1.3rem; }
+        th, td { border-bottom: 1px solid #eee; padding: 8px 4px; text-align: center; }
+        th { background: #f8f9fa; position: sticky; top: 0; }
+        
+        .winner-row { background-color: #fff9c4 !important; } 
+        .winner-row td { font-weight: bold; }
+        .winner-row td.balance { color: #f57f17; }
+        .balance { font-family: 'Consolas', monospace; font-weight: bold; color: #2e7d32; }
+        
+        /* 右側面板：按鈕移到中間 */
+        .side-panel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h2 { margin: 0 0 8px 0; font-size: 1.1rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 5px; }
+        
+        .group-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); grid-auto-flow: column; gap: 8px; }
+        .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1.1rem; font-weight: bold; }
+        select { padding: 5px; font-size: 1.1rem; border-radius: 5px; width: 80px; }
+        
+        /* 結算按鈕區域 - 現在位於中間 */
+        .action-area { padding: 2px 0; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.4rem; transition: 0.2s; }
+        .btn-next { background: #1877f2; color: white; }
+        .btn-reset { background: #ccc; margin-top: 8px; font-size: 1.1rem; padding: 10px; }
 
-    /* Dashboard now takes up exactly the remaining height */
-    .dashboard { 
-        flex: 1; 
-        display: grid; 
-        grid-template-columns: 1.8fr 1fr; 
-        gap: 8px; 
-        min-height: 0; /* Critical for flex children to shrink */
-        overflow: hidden; 
-    }
+        #dividend-card { display: none; background: #fff4e5; border: 2px solid #f7b928; }
+        .div-btn { background: #f7b928; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; }
 
-    /* Main Panel: The table area */
-    .main-panel { 
-        background: white; 
-        padding: 8px; 
-        border-radius: 12px; 
-        display: flex; 
-        flex-direction: column; 
-        min-height: 0; 
-    }
-
-    /* Table Container: Make the table scroll internally if needed, but try to fit it */
-    .table-container { flex: 1; overflow-y: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 1.2rem; }
-    th, td { border-bottom: 1px solid #eee; padding: 6px 4px; text-align: center; }
-    th { background: #f8f9fa; position: sticky; top: 0; }
-    
-    .winner-row { background-color: #fff9c4 !important; } 
-    .balance { font-family: 'Consolas', monospace; font-weight: bold; color: #2e7d32; }
-
-    .stats-box { 
-        background: #e7f3ff; 
-        padding: 8px; 
-        border-radius: 8px; 
-        font-size: 1.1rem; 
-        font-weight: bold; 
-        display: flex; 
-        justify-content: space-around; 
-        margin-top: 5px; 
-        flex-shrink: 0;
-    }
-
-    /* Side Panel: Inputs and Buttons */
-    .side-panel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
-    .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    h2 { margin: 0 0 5px 0; font-size: 1.1rem; color: #1877f2; border-bottom: 2px solid #1877f2; padding-bottom: 3px; }
-    
-    /* Tighten the group grid to save vertical space */
-    .group-grid { 
-        display: grid; 
-        grid-template-columns: 1fr 1fr; 
-        grid-template-rows: repeat(3, 1fr);
-        gap: 5px; 
-    }
-    .group-item { display: flex; align-items: center; justify-content: space-between; font-size: 1rem; font-weight: bold; }
-    select { padding: 3px; font-size: 1rem; width: 75px; }
-    
-    #dividend-card { display: none; background: #fff4e5; border: 2px solid #f7b928; }
-    .div-btn { background: #f7b928; color: #000; border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; }
-    
-    /* Buttons area */
-    .action-area { margin-top: auto; padding-bottom: 5px; flex-shrink: 0; }
-    .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
-    .btn-next { background: #1877f2; color: white; }
-
-    .admin-trigger {
-        position: fixed; bottom: 5px; right: 5px; width: 30px; height: 30px;
-        background: rgba(0,0,0,0.05); border-radius: 50%; display: flex;
-        align-items: center; justify-content: center; cursor: pointer; z-index: 999;
-    }
-</style>
+        .admin-trigger { position: fixed; bottom: 5px; right: 5px; width: 30px; height: 30px; background: rgba(0,0,0,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: #ddd; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
 
@@ -99,21 +52,22 @@
 
 <div class="dashboard">
     <div class="main-panel">
-        <table>
-            <thead>
-                <tr>
-                    <th>組別</th>
-                    <th>目前資產 (HKD)</th>
-                    <th>選擇</th>
-                    <th>本日總回報率</th>
-                </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-
         <div class="stats-box">
             <span>債券平均: <span id="avg-bond" style="color:#1877f2">0.00%</span></span>
             <span>股票平均: <span id="avg-share" style="color:#d32f2f">0.00%</span></span>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>組別</th>
+                        <th>目前資產</th>
+                        <th>選擇</th>
+                        <th>回報率</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
         </div>
     </div>
 
@@ -123,14 +77,14 @@
             <div class="group-grid" id="input-container"></div>
         </div>
 
-        <div id="dividend-card" class="card">
-            <h2 style="color: #e67e22; border-color: #e67e22;">公司即時決策 (隱藏獎勵)</h2>
-            <button class="div-btn" onclick="applyInstantDividend()">💰 追加額外股息 (+2%)</button>
+        <div class="action-area">
+            <button id="main-action-btn" class="btn btn-next" onclick="nextDay()">確認選擇並結算</button>
+            <button id="reset-btn" class="btn btn-reset" style="display:none;" onclick="location.reload()">重新開始</button>
         </div>
 
-        <div style="margin-top: auto; padding-bottom: 5px;">
-            <button id="main-action-btn" class="btn btn-next" onclick="nextDay()">確認選擇並結算</button>
-            <button id="reset-btn" class="btn" style="background:#ccc; display:none; margin-top:8px;" onclick="location.reload()">重新開始</button>
+        <div id="dividend-card" class="card">
+            <h2 style="color: #e67e22; border-color: #e67e22;">公司即時決策</h2>
+            <button class="div-btn" onclick="applyInstantDividend()">💰 追加額外股息 (+2%)</button>
         </div>
     </div>
 </div>
@@ -144,14 +98,7 @@
     let totalBondReturn = 0;
     let totalShareReturn = 0;
     let isSettled = false;
-
     const shareBehavior = [0.06, -0.05, 0.08, 0.04, -0.08, 0.07, 0.09]; 
-
-    window.addEventListener('keydown', function(e) {
-        if (e.key.toLowerCase() === 'd') {
-            toggleDividendCard();
-        }
-    });
 
     function toggleDividendCard() {
         if (!isSettled) return; 
@@ -162,7 +109,7 @@
     function initInputs() {
         const container = document.getElementById('input-container');
         for (let i = 1; i <= 6; i++) {
-            container.innerHTML += `<div class="group-item"><label>第 ${i} 組:</label><select id="sel-${i}"><option value="B">債券</option><option value="S">股票</option></select></div>`;
+            container.innerHTML += `<div class="group-item"><label>${i}組:</label><select id="sel-${i}"><option value="B">債券</option><option value="S">股票</option></select></div>`;
         }
     }
 
@@ -170,26 +117,14 @@
         const tbody = document.getElementById('table-body');
         tbody.innerHTML = '';
         const maxBalance = Math.max(...groups.map(g => g.balance));
-
         groups.forEach(g => {
             let returnDisplay = '-';
             const isLeading = g.balance === maxBalance && g.balance > 1000;
-            
             if (isSettled) {
-                const totalPct = (g.lastReturn * 100).toFixed(2);
-                returnDisplay = totalPct + '%';
-                if (g.currentBonus > 0) {
-                    returnDisplay += ` <small style="color:#f7b928">(+${g.currentBonus}% 股息)</small>`;
-                }
+                returnDisplay = (g.lastReturn * 100).toFixed(2) + '%';
+                if (g.currentBonus > 0) returnDisplay += ` <small>(+${g.currentBonus}%)</small>`;
             }
-            
-            tbody.innerHTML += `
-                <tr class="${isLeading ? 'winner-row' : ''}">
-                    <td><strong>第 ${g.id} 組</strong>${isLeading ? '<span class="trophy">🏆</span>' : ''}</td>
-                    <td class="balance">$${g.balance.toFixed(2)}</td>
-                    <td>${isSettled ? (g.choice === 'B' ? '債券' : '股票') : '-'}</td>
-                    <td style="color:${g.lastReturn >= 0 ? '#d32f2f' : '#2e7d32'}">${returnDisplay}</td>
-                </tr>`;
+            tbody.innerHTML += `<tr class="${isLeading ? 'winner-row' : ''}"><td><strong>第${g.id}組</strong></td><td class="balance">$${g.balance.toFixed(2)}</td><td>${isSettled ? (g.choice === 'B' ? '債券' : '股票') : '-'}</td><td style="color:${g.lastReturn >= 0 ? '#d32f2f' : '#2e7d32'}">${returnDisplay}</td></tr>`;
         });
     }
 
@@ -211,37 +146,26 @@
         if (!isSettled) {
             isSettled = true;
             const bondBase = (Math.random() * (0.032 - 0.028) + 0.028);
-            const noise = (Math.random() * 0.01) - 0.005;
-            const shareBase = shareBehavior[day-1] + noise;
-
+            const shareBase = shareBehavior[day-1] + ((Math.random() * 0.01) - 0.005);
             groups.forEach(g => {
                 g.choice = document.getElementById(`sel-${g.id}`).value;
                 g.currentBonus = 0;
                 g.lastReturn = (g.choice === 'B') ? bondBase : shareBase;
-                g.balance = g.balance * (1 + g.lastReturn);
+                g.balance *= (1 + g.lastReturn);
             });
-
-            totalBondReturn += bondBase;
-            totalShareReturn += shareBase;
-
+            totalBondReturn += bondBase; totalShareReturn += shareBase;
             document.getElementById('avg-bond').innerText = (totalBondReturn / day * 100).toFixed(2) + "%";
             document.getElementById('avg-share').innerText = (totalShareReturn / day * 100).toFixed(2) + "%";
-            
             renderTable();
-
-            document.getElementById('main-action-btn').innerText = "進入下一天 →";
+            document.getElementById('main-action-btn').innerText = "下一天 →";
             document.getElementById('main-action-btn').style.background = "#28a745";
         } else {
             if (day === maxDays) {
                 document.getElementById('main-action-btn').style.display = 'none';
-                document.getElementById('dividend-card').style.display = 'none';
                 document.getElementById('reset-btn').style.display = 'block';
-                document.querySelector('.header').style.background = '#2e7d32';
-                document.querySelector('.header h1').innerText = "最終結算：誰是 Elon Musk？！";
-                renderTable();
+                document.querySelector('.header h1').innerText = "最終結算！";
             } else {
-                day++;
-                isSettled = false;
+                day++; isSettled = false;
                 document.getElementById('day-num').innerText = day;
                 document.getElementById('dividend-card').style.display = 'none';
                 document.getElementById('main-action-btn').innerText = "確認選擇並結算";
@@ -250,9 +174,7 @@
             }
         }
     }
-
-    initInputs();
-    renderTable();
+    initInputs(); renderTable();
 </script>
 </body>
 </html>
